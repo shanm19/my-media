@@ -1,0 +1,139 @@
+<div class="mdl-grid boardgameCard">
+
+    <div class="mdl-cell mdl-cell--12-col center">
+        <h1>BOARDGAMES</h1>
+    </div>
+
+    <!-- Top 3 Buttons -->
+    <show-add-search style="width: 100%; text-align: center;"></show-add-search>
+
+    <br><br><br>
+
+    <!-- Search for a Boardgame -->
+    <search-field style="width: 100%; text-align: center;" ng-show="toggleSearch"></search-field>
+
+    <!-- Add Boardgame Form -->
+    <div class="mdl-grid left" ng-show="toggleAdd" style="width: 100%; position: relative;">
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualBoardgameCard" style="padding: 1em;">
+
+            <form ng-submit="post()" style="text-align: center;">
+                <!-- Boardgame Title -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="title" ng-model="newBoardgame.title">
+                    <label class="mdl-textfield__label" for="title">Title</label>
+                </div>
+                <!-- Boardgame Genre -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="genre" ng-model="newBoardgame.genre">
+                    <label class="mdl-textfield__label" for="genre">Genre</label>
+                </div>
+                <!-- Boardgame Playtime -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="playtime" ng-model="newBoardgame.playtime">
+                    <label class="mdl-textfield__label" for="playtime">Playtime (Minutes)</label>
+                </div>
+                <!-- Boardgame Rating -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="rating" ng-model="newBoardgame.rating">
+                    <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                </div>
+                <!-- Boardgame Description -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="newBoardgame.description"></textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <br>
+                <!-- Form Submit and Cancel Buttons -->
+                <div class="grid">
+                    <div class="cell cell--4-col center submitLeft">
+                        <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                            id="submit" value="Submit" ng-disabled="!newBoardgame.title  || newBoardgame.rating > 5 || newBoardgame.rating < 0">
+                    </div>
+                    <div class="cell cell--4-col center cancelRight">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="toggleAdd = !toggleAdd">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Show All -->
+    <!-- Individual Boardgame -->
+    <div class="mdl-grid left" ng-show="toggleShowAll" style="width: 100%; position: relative">
+        <!-- Sort Button -->
+        <div class="mdl-cell--12-col center" ng-show="boardgames.length > 1">
+            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="reverse()">Reverse Order</button>
+        </div>
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualBoardgameCard" ng-repeat="boardgame in boardgames track by $index"
+            ng-init="boardgame.hide = false; boardgame.edit = false;" style="padding: 1em;" ng-show="!boardgame.hide">
+            <!-- Boardgame Info -->
+            <div ng-show="toggleShowAll && !boardgame.edit">
+                <h3>{{boardgame.title}}</h3>
+                <p>Rating: {{boardgame.rating}}/5</p>
+                <p>Genre: {{boardgame.genre}}</p>
+                <p>Playtime: {{boardgame.playtime}}min</p>
+                <p>Description: {{boardgame.description}}</p>
+                <!-- Boardgame hide, delete, modify Buttons -->
+                <div class="mdl-grid center" style="position: absolute; left: 0; bottom: 0; width: 100%;">
+                    <div class="mdl-cell mdl-cell--4-col center" style="margin-left: 0; margin-right: 0;">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="boardgame.hide = !boardgame.hide">Hide</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="delete($index)">Delete</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="boardgame.edit = !boardgame.edit">Modify</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Boardgame Edit Dock -->
+            <div ng-show="boardgame.edit">
+                <form ng-submit="update($index); boardgame.edit = !boardgame.edit;" style="text-align: center;">
+                    <!-- Boardgame Title -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="title" ng-model="updatedBoardgame.title">
+                        <label class="mdl-textfield__label" for="title">Title</label>
+                    </div>
+                    <!-- Boardgame Genre -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="genre" ng-model="updatedBoardgame.genre">
+                        <label class="mdl-textfield__label" for="genre">Genre</label>
+                    </div>
+                    <!-- Boardgame Playtime -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="playtime" ng-model="updatedBoardgame.playtime">
+                        <label class="mdl-textfield__label" for="playtime">Playtime (Minutes)</label>
+                    </div>
+                    <!-- Boardgame Rating -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="rating" ng-model="updatedBoardgame.rating">
+                        <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                    </div>
+                    <!-- Boardgame Description -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="updatedBoardgame.description"></textarea>
+                        <label class="mdl-textfield__label" for="description">Description</label>
+                    </div>
+                    <br>
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="grid">
+                        <div class="cell cell--4-col center submitLeft">
+                            <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                                id="submit" value="Submit">
+                        </div>
+                        <div class="cell cell--4-col center cancelRight">
+                            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="boardgame.edit = !boardgame.edit">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+</div>

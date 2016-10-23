@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MainApp">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- scale to mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Google MDL -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-blue.min.css">
+    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+
+    <!-- Font Awesome -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter" rel="stylesheet">
+
+    <!-- Personal CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="mdl-color--indigo-100" ng-controller="MainController">
+
+
+
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+            mdl-layout--fixed-tabs">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title" style="font-family: 'Architects Daughter', cursive">My Media</span>
+            </div>
+            <!-- Tabs -->
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+                <a ui-sref="movies" class="mdl-layout__tab" ui-sref-active="is-active" style="font-size: 20px;">Movies</a>
+                <a ui-sref="videogames" class="mdl-layout__tab" ui-sref-active="is-active" style="font-size: 20px;">Video Games</a>
+                <a ui-sref="books" class="mdl-layout__tab" ui-sref-active="is-active" style="font-size: 20px;">Books</a>
+                <a ui-sref="boardgames" class="mdl-layout__tab" ui-sref-active="is-active" style="font-size: 20px;">Board Games</a>
+            </div>
+        </header>
+        <!-- Drawer -->
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title" style="font-family: 'Architects Daughter', cursive; font-size: 2em; text-align: left; padding-left: 1em;">My Media</span>
+            <hr>
+            <nav class="mdl-navigation navDrawer">
+                <a ui-sref="movies" class="mdl-layout__tab" ui-sref-active="is-active">Movies</a>
+                <a ui-sref="videogames" class="mdl-layout__tab" ui-sref-active="is-active">Video Games</a>
+                <a ui-sref="books" class="mdl-layout__tab" ui-sref-active="is-active">Books</a>
+                <a ui-sref="boardgames" class="mdl-layout__tab" ui-sref-active="is-active">Board Games</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <br><br>
+            <ui-view></ui-view>
+        </main>
+
+    </div>
+
+
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+
+    <!-- LoDash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.3/lodash.js"></script>
+
+
+    <!-- Controllers -->
+    <script src="controllers/app.js"></script>
+    <script src="controllers/homeCtrl.js"></script>
+    <script src="controllers/moviesCtrl.js"></script>
+    <script src="controllers/videogamesCtrl.js"></script>
+    <script src="controllers/booksCtrl.js"></script>
+    <script src="controllers/boardgamesCtrl.js"></script>
+
+    <!-- Directives -->
+    <script src="directives/showAddSearch/showAddSearch.js"></script>
+    <script src="directives/searchField/searchField.js"></script>
+
+    <!-- Services -->
+    <script src="services/movieService.js"></script>
+    <script src="services/videogameService.js"></script>
+    <script src="services/bookService.js"></script>
+    <script src="services/boardgameService.js"></script>
+
+</body>
+
+</html>

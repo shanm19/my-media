@@ -1,0 +1,171 @@
+<div class="mdl-grid videogameCard">
+
+    <div class="mdl-cell mdl-cell--12-col center">
+        <h1>VIDEOGAMES</h1>
+    </div>
+
+    <!-- Top 3 Buttons -->
+    <show-add-search style="width: 100%; text-align: center;"></show-add-search>
+
+    <br><br><br>
+
+    <!-- Search for a Videogame -->
+    <search-field style="width: 100%; text-align: center;" ng-show="toggleSearch"></search-field>
+
+    <!-- Add Videogame Form -->
+    <div class="mdl-grid left" ng-show="toggleAdd" style="width: 100%; position: relative;">
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualVideogameCard" style="padding: 1em;">
+
+            <form ng-submit="post()" style="text-align: center;">
+                <!-- Videogame Title -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="title" ng-model="newVideogame.title">
+                    <label class="mdl-textfield__label" for="title">Title</label>
+                </div>
+                <!-- Videogame Genre -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="genre" ng-model="newVideogame.genre">
+                    <label class="mdl-textfield__label" for="genre">Genre</label>
+                </div>
+                <!-- Videogame Playtime -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="playtime" ng-model="newVideogame.playtime">
+                    <label class="mdl-textfield__label" for="playtime">Playtime (Hours)</label>
+                </div>
+                <!-- Videogame Rating -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="rating" ng-model="newVideogame.rating">
+                    <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                </div>
+                <!-- Videogame Description -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="newVideogame.description"></textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <!-- Videogame Platform Radio Buttons -->
+                <div class="cell cell--4-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="newXBox">
+                            <input type="radio" id="newXBox" class="mdl-radio__button" name="newOptions" value="X-Box" ng-model="newVideogame.platform">
+                            <span class="mdl-radio__label">X-Box</span>
+                        </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="newNintendo">
+                            <input type="radio" id="newNintendo" class="mdl-radio__button" name="newOptions" value="Nintendo" ng-model="newVideogame.platform">
+                            <span class="mdl-radio__label">Nintendo</span>
+                        </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="newPlayStation">
+                            <input type="radio" id="newPlayStation" class="mdl-radio__button" name="newOptions" value="PlayStation" ng-model="newVideogame.platform">
+                            <span class="mdl-radio__label">PlayStation</span>
+                        </label>
+                </div>
+                <br>
+                <!-- Form Submit and Cancel Buttons -->
+                <div class="grid">
+                    <div class="cell cell--4-col center submitLeft">
+                        <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                            id="submit" value="Submit" ng-disabled="!newVideogame.title || !newVideogame.platform || newVideogame.rating > 5 || newVideogame.rating < 0">
+                    </div>
+                    <div class="cell cell--4-col center cancelRight">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="toggleAdd = !toggleAdd">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Show All -->
+<!-- Individual Videogame -->
+<div class="mdl-grid left" ng-show="toggleShowAll" style="width: 100%; position: relative;">
+    <!-- Sort Button -->
+    <div class="mdl-cell--12-col center" ng-show="videogames.length > 1">
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="reverse()">Reverse Order</button>
+    </div>
+    <div class="mdl-cell--4-col mdl-shadow--2dp individualVideogameCard" ng-repeat="videogame in videogames track by $index"
+        ng-init="videogame.hide = false; videogame.edit = false;" style="padding: 1em;" ng-show="!videogame.hide">
+        <!-- Videogame Info -->
+        <div ng-show="toggleShowAll && !videogame.edit">
+            <h3>{{videogame.title}}</h3>
+            <p>Genre: {{videogame.genre}}</p>
+            <p>Playtime: {{videogame.playtime}}hrs</p>
+            <p>Platform: {{videogame.platform}}</p>
+            <p>Rating: {{videogame.rating}}/5</p>
+            <p>Description: {{videogame.description}}</p>
+            <!-- Videogame hide, delete, modify Buttons -->
+            <div class="mdl-grid center" style="position: absolute; left: 0; bottom: 0; width: 100%;">
+                <div class="mdl-cell mdl-cell--4-col center" style="margin-left: 0; margin-right: 0;">
+                    <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="videogame.hide = !videogame.hide">Hide</button>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col center">
+                    <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="delete($index)">Delete</button>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col center">
+                    <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="videogame.edit = !videogame.edit">Modify</button>
+                </div>
+            </div>
+        </div>
+        <!-- Videogame Edit Dock -->
+        <div ng-show="videogame.edit">
+            <form ng-submit="update($index); videogame.edit = !videogame.edit;" style="text-align: center;">
+                <!-- Videogame Title -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="title" ng-model="updatedVideogame.title">
+                    <label class="mdl-textfield__label" for="title">Title</label>
+                </div>
+                <!-- Videogame Genre -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="genre" ng-model="updatedVideogame.genre">
+                    <label class="mdl-textfield__label" for="genre">Genre</label>
+                </div>
+                <!-- Videogame Playtime -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="playtime" ng-model="updatedVideogame.playtime">
+                    <label class="mdl-textfield__label" for="playtime">Playtime (Hours)</label>
+                </div>
+                <!-- Videogame Rating -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="rating" ng-model="updatedVideogame.rating">
+                    <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                </div>
+                <!-- Videogame Description -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="updatedVideogame.description"></textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <!-- Videogame Format Radio Buttons -->
+                <div class="cell cell--4-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateXBox">
+                            <input type="radio" id="updateXBox" class="mdl-radio__button" name="updateOptions" value="X-Box" ng-model="updatedVideogame.platform">
+                            <span class="mdl-radio__label">X-Box</span>
+                        </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateNintendo">
+                            <input type="radio" id="updateNintendo" class="mdl-radio__button" name="updateOptions" value="Nintendo" ng-model="updatedVideogame.platform">
+                            <span class="mdl-radio__label">Nintendo</span>
+                        </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updatePlayStation">
+                            <input type="radio" id="updatePlayStation" class="mdl-radio__button" name="updateOptions" value="PlayStation" ng-model="updatedVideogame.platform">
+                            <span class="mdl-radio__label">PlayStation</span>
+                        </label>
+                </div>
+                <br>
+                <!-- Submit and Cancel Buttons -->
+                <div class="grid">
+                    <div class="cell cell--4-col center submitLeft">
+                        <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                            id="submit" value="Submit">
+                    </div>
+                    <div class="cell cell--4-col center cancelRight">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="videogame.edit = !videogame.edit">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
+</div>

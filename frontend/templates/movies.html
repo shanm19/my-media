@@ -1,0 +1,173 @@
+<div class="mdl-grid movieCard">
+
+    <div class="mdl-cell mdl-cell--12-col center">
+        <h1>MOVIES</h1>
+    </div>
+
+    <!-- Top 3 Buttons -->
+    <show-add-search style="width: 100%; text-align: center;"></show-add-search>
+
+    <br><br><br>
+
+    <!-- Search for a Movie -->
+    <search-field style="width: 100%; text-align: center;" ng-show="toggleSearch"></search-field>
+
+    <!-- Add Movie Form -->
+    <div class="mdl-grid left" ng-show="toggleAdd" style="width: 100%;">
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualMovieCard" style="padding: 1em;">
+
+            <form ng-submit="post()" style="text-align: center;">
+                <!-- Movie Title -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="title" ng-model="newMovie.title">
+                    <label class="mdl-textfield__label" for="title">Title</label>
+                </div>
+                <!-- Movie Genre -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="genre" ng-model="newMovie.genre">
+                    <label class="mdl-textfield__label" for="genre">Genre</label>
+                </div>
+                <!-- Movie Director -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="director" ng-model="newMovie.director">
+                    <label class="mdl-textfield__label" for="director">Director</label>
+                </div>
+                <!-- Movie Length -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="length" ng-model="newMovie.runtime">
+                    <label class="mdl-textfield__label" for="length">Length (Minutes)</label>
+                </div>
+                <!-- Movie Rating -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="rating" ng-model="newMovie.rating">
+                    <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                </div>
+                <!-- Movie Description -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="newMovie.description"></textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <!-- Movie Format <-->
+                <div class="cell cell--4-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="bluray">
+                        <input type="radio" id="bluray" class="mdl-radio__button" name="options" value="Blu-Ray" ng-model="newMovie.format">
+                        <span class="mdl-radio__label">Blu-Ray</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="dvd">
+                        <input type="radio" id="dvd" class="mdl-radio__button" name="options" value="DVD" ng-model="newMovie.format">
+                    <span class="mdl-radio__label">DVD</span>
+                </label>
+                </div>
+                <br>
+                <!-- Form Submit and Cancel Buttons -->
+                <div class="grid">
+                    <div class="cell cell--4-col center submitLeft">
+                        <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                            id="submit" value="Submit" ng-disabled="!newMovie.title || !newMovie.runtime || !newMovie.format || newMovie.rating > 5 || newMovie.rating < 0">
+                    </div>
+                    <div class="cell cell--4-col center cancelRight">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="toggleAdd = !toggleAdd">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Show All -->
+    <!-- Individual Movie -->
+    <div class="mdl-grid left" ng-show="toggleShowAll" style="width: 100%; position: relative;">
+        <!-- Sort Button -->
+        <div class="mdl-cell--12-col center" ng-show="movies.length > 1">
+            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="reverse()">Reverse Order</button>
+        </div>
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualMovieCard" ng-repeat="movie in movies track by $index" ng-init="movie.hide = false; movie.edit = false;"
+            style="padding: 1em;" ng-show="!movie.hide">
+            <!-- Movie Info -->
+            <div ng-show="toggleShowAll && !movie.edit">
+                <h3>{{movie.title}}</h3>
+                <p>Director: {{movie.director}}</p>
+                <p>Description: {{movie.description}}</p>
+                <p>Rating: {{movie.rating}}/5</p>
+                <p>Genre: {{movie.genre}}</p>
+                <p>Length: {{movie.length}}min</p>
+                <p>Format: {{movie.format}}</p>
+                <!-- Movie hide, delete, modify Buttons -->
+                <div class="mdl-grid center" style="position: absolute; left: 0; bottom: 0; width: 100%;">
+                    <div class="mdl-cell mdl-cell--4-col center" style="margin-left: 0; margin-right: 0;">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="movie.hide = !movie.hide">Hide</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="delete($index)">Delete</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="movie.edit = !movie.edit">Modify</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Movie Edit Dock -->
+            <div ng-show="movie.edit">
+                <form ng-submit="update($index); movie.edit = !movie.edit;" style="text-align: center;">
+                    <!-- Movie Title -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="title" ng-model="updatedMovie.title">
+                        <label class="mdl-textfield__label" for="title">Title</label>
+                    </div>
+                    <!-- Movie Genre -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="genre" ng-model="updatedMovie.genre">
+                        <label class="mdl-textfield__label" for="genre">Genre</label>
+                    </div>
+                    <!-- Movie Director -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="director" ng-model="updatedMovie.director">
+                        <label class="mdl-textfield__label" for="director">Director</label>
+                    </div>
+                    <!-- Movie Length -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="length" ng-model="updatedMovie.length">
+                        <label class="mdl-textfield__label" for="length">Length (Minutes)</label>
+                    </div>
+                    <!-- Movie Rating -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="rating" ng-model="updatedMovie.rating">
+                        <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                    </div>
+                    <!-- Movie Description -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="updatedMovie.description"></textarea>
+                        <label class="mdl-textfield__label" for="description">Description</label>
+                    </div>
+                    <!-- Movie Format Radio Buttons -->
+                    <div class="cell cell--4-col">
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateBluray">
+                        <input type="radio" id="updateBluray" class="mdl-radio__button" name="updateOptions" value="Blu-Ray" ng-model="updatedMovie.format">
+                        <span class="mdl-radio__label">Blu-Ray</span>
+                    </label>
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateDvd">
+                        <input type="radio" id="updateDvd" class="mdl-radio__button" name="updateOptions" value="DVD" ng-model="updatedMovie.format">
+                    <span class="mdl-radio__label">DVD</span>
+                </label>
+                    </div>
+                    <br>
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="grid">
+                        <div class="cell cell--4-col center submitLeft">
+                            <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                                id="submit" value="Submit">
+                        </div>
+                        <div class="cell cell--4-col center cancelRight">
+                            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="movie.edit = !movie.edit">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+</div>

@@ -1,0 +1,173 @@
+<div class="mdl-grid bookCard">
+
+    <div class="mdl-cell mdl-cell--12-col center">
+        <h1>BOOKS</h1>
+    </div>
+
+    <!-- Top 3 Buttons -->
+    <show-add-search style="width: 100%; text-align: center;"></show-add-search>
+
+    <br><br><br>
+
+    <!-- Search for a Book -->
+    <search-field style="width: 100%; text-align: center;" ng-show="toggleSearch"></search-field>
+
+    <!-- Add Book Form -->
+    <div class="mdl-grid left" ng-show="toggleAdd" style="width: 100%; position: relative;">
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualBookCard" style="padding: 1em;">
+
+            <form ng-submit="post()" style="text-align: center;">
+                <!-- Book Title -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="title" ng-model="newBook.title">
+                    <label class="mdl-textfield__label" for="title">Title</label>
+                </div>
+                <!-- Book Author -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="author" ng-model="newBook.author">
+                    <label class="mdl-textfield__label" for="author">Author</label>
+                </div>
+                <!-- Book Genre -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="genre" ng-model="newBook.genre">
+                    <label class="mdl-textfield__label" for="genre">Genre</label>
+                </div>
+                <!-- Book Pages -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="pages" ng-model="newBook.pages">
+                    <label class="mdl-textfield__label" for="pages">Pages</label>
+                </div>
+                <!-- Book Rating -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="number" id="rating" ng-model="newBook.rating">
+                    <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                </div>
+                <!-- Book Description -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="newBook.description"></textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <!-- Book Format <-->
+                <div class="cell cell--4-col">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="hardcover">
+                        <input type="radio" id="hardcover" class="mdl-radio__button" name="options" value="Hard-Cover" ng-model="newBook.format">
+                        <span class="mdl-radio__label">Hard-Cover</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="softcover">
+                        <input type="radio" id="softcover" class="mdl-radio__button" name="options" value="Soft-Cover" ng-model="newBook.format">
+                    <span class="mdl-radio__label">Soft-Cover</span>
+                </label>
+                </div>
+                <br>
+                <!-- Form Submit and Cancel Buttons -->
+                <div class="grid">
+                    <div class="cell cell--4-col center submitLeft">
+                        <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                            id="submit" value="Submit" ng-disabled="!newBook.title || !newBook.format || newBook.rating > 5 || newBook.rating < 0">
+                    </div>
+                    <div class="cell cell--4-col center cancelRight">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="toggleAdd = !toggleAdd">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Show All -->
+    <!-- Individual Book -->
+    <div class="mdl-grid left" ng-show="toggleShowAll" style="width: 100%; position: relative;">
+        <!-- Sort Button -->
+        <div class="mdl-cell--12-col center" ng-show="books.length > 1">
+            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="reverse()">Reverse Order</button>
+        </div>
+        <div class="mdl-cell--4-col mdl-shadow--2dp individualBookCard" ng-repeat="book in books track by $index" ng-init="book.hide = false; book.edit = false;"
+            style="padding: 1em;" ng-show="!book.hide">
+            <!-- Book Info -->
+            <div ng-show="toggleShowAll && !book.edit">
+                <h3>{{book.title}}</h3>
+                <p>Author: {{book.author}}</p>
+                <p>Rating: {{book.rating}}/5</p>
+                <p>Genre: {{book.genre}}</p>
+                <p>Pages: {{book.pages}}</p>
+                <p>Format: {{book.format}}</p>
+                <p>Description: {{book.description}}</p>
+                <!-- Book hide, delete, modify Buttons -->
+                <div class="mdl-grid center" style="position: absolute; left: 0; bottom: 0; width: 100%;">
+                    <div class="mdl-cell mdl-cell--4-col center" style="margin-left: 0; margin-right: 0;">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="book.hide = !book.hide">Hide</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="delete($index)">Delete</button>
+                    </div>
+                    <div class="mdl-cell mdl-cell--4-col center">
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="book.edit = !book.edit">Modify</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Edit Dock -->
+            <div ng-show="book.edit">
+                <form ng-submit="update($index); book.edit = !book.edit;" style="text-align: center;">
+                    <!-- Book Title -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="title" ng-model="updatedBook.title">
+                        <label class="mdl-textfield__label" for="title">Title</label>
+                    </div>
+                    <!-- Book Author -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="author" ng-model="updatedBook.author">
+                        <label class="mdl-textfield__label" for="author">Author</label>
+                    </div>
+                    <!-- Book Genre -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="genre" ng-model="updatedBook.genre">
+                        <label class="mdl-textfield__label" for="genre">Genre</label>
+                    </div>
+                    <!-- Book Pages -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="pages" ng-model="updatedBook.pages">
+                        <label class="mdl-textfield__label" for="pages">Pages</label>
+                    </div>
+                    <!-- Book Rating -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="rating" ng-model="updatedBook.rating">
+                        <label class="mdl-textfield__label" for="rating">Rating (out of 5)</label>
+                    </div>
+                    <!-- Book Description -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <textarea class="mdl-textfield__input" type="text" row="2" id="description" ng-model="updatedBook.description"></textarea>
+                        <label class="mdl-textfield__label" for="description">Description</label>
+                    </div>
+                    <!-- Book Format Radio Buttons -->
+                    <div class="cell cell--4-col">
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateHardCover">
+                        <input type="radio" id="updateHardCover" class="mdl-radio__button" name="updateOptions" value="Hard-Cover" ng-model="updatedBook.format">
+                        <span class="mdl-radio__label">Hard-Cover</span>
+                    </label>
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="updateSoftCover">
+                        <input type="radio" id="updateSoftCover" class="mdl-radio__button" name="updateOptions" value="Soft-Cover" ng-model="updatedBook.format">
+                    <span class="mdl-radio__label">Soft-Cover</span>
+                </label>
+                    </div>
+                    <br>
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="grid">
+                        <div class="cell cell--4-col center submitLeft">
+                            <input id="demo-show-toast" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit"
+                                id="submit" value="Submit">
+                        </div>
+                        <div class="cell cell--4-col center cancelRight">
+                            <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="book.edit = !book.edit">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+</div>

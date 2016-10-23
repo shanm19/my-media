@@ -1,0 +1,101 @@
+body {
+    font-family: 'Architects Daughter', cursive;
+}
+
+.boardgameCard *,
+.bookCard *,
+.movieCard *,
+.videogameCard * {
+    font-family: 'Architects Daughter', cursive !important;
+}
+
+p {
+    font-size: 20px !important;
+}
+
+button {
+    font-size: 20px !important;
+    font-family: 'Architects Daughter', cursive !important;
+}
+
+h3 {
+    margin-top: 0 !important;
+    font-family: 'Architects Daughter', cursive !important;
+}
+
+label {
+    font-size: 20px !important;
+}
+
+a:active,
+a:link,
+a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.navDrawer a {
+    color: black !important;
+    text-align: left;
+    padding-left: 1em !important;
+    font-size: 2em;
+}
+
+.navDrawer a:active {
+    color: black !important;
+    background-color: #ccc !important;
+}
+
+.navDrawer a:link {
+    color: black !important;
+}
+
+.navDrawer a:hover {
+    color: black !important;
+    background-color: #ccc !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.buttonWidth {
+    width: 10vw;
+    height: 50px;
+    font-size: 1em;
+}
+
+.submitLeft {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1em;
+}
+
+.cancelRight {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
+}
+
+.individualMovieCard,
+.individualVideogameCard,
+.individualBookCard,
+.individualBoardgameCard {
+    height: 550px;
+    width: 33%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-color: white;
+    position: relative;
+}
